@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:spreadsheet_autogen"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="spreadsheet_autogen.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="681.5">
+        Title="spreadsheet_autogen v 0.8" Height="450" Width="681.5">
     <Grid>
         <TextBox x:Name="Row" HorizontalAlignment="Left" Height="23" Margin="59,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"  MaxLines="1"/>
         <TextBox x:Name="Column" HorizontalAlignment="Left" Height="23" Margin="59,208,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"  IsEnabled="True" MaxLines="1" IsUndoEnabled="False"/>

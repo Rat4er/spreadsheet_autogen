@@ -24,36 +24,61 @@ namespace spreadsheet_autogen
         public MainWindow()
         {
           
-                InitializeComponent();
-        //    this.Row.PreviewTextInput += new TextCompositionEventHandler(textBox_PreviewTextInput);
-        //    this.Column.PreviewTextInput += new TextCompositionEventHandler(textBox_PreviewTextInput);
-        //    this.MaxValue.PreviewTextInput += new TextCompositionEventHandler(textBox_PreviewTextInput);
-        //    this.MinValue.PreviewTextInput += new TextCompositionEventHandler(textBox_PreviewTextInput);
-
-        //    void textBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        //    {
-        //        if (!Char.IsDigit(e.Text, 0)) e.Handled = true;
-        //    }
+            InitializeComponent();
             
+            this.Row.PreviewTextInput += new TextCompositionEventHandler(textBox_PreviewTextInput);
+            this.Column.PreviewTextInput += new TextCompositionEventHandler(textBox_PreviewTextInput);
+            this.MaxValue.PreviewTextInput += new TextCompositionEventHandler(textBox_PreviewTextInput);
+            this.MinValue.PreviewTextInput += new TextCompositionEventHandler(textBox_PreviewTextInput);
             
-            
-        //}
+            ///<summary>
+            ///Запрещает вставку символов
+            ///</summary>>
+            void textBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+            {
+                if (!Char.IsDigit(e.Text, 0)) e.Handled = true;
+            }
 
-        //private void Row_TextChanged(object sender, TextChangedEventArgs e)
-        //{
 
-        //}
-
-        //private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
 
         }
+
+        private void Row_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// Обработчик нажатия кнопки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onClick(object sender, RoutedEventArgs e)
         {
             GenerateSheet sheet = new GenerateSheet();
-            //sheet.CreateWorksheet();
-            sheet.CellsRandomNumbers(Row.Text, Column.Text, MinValue.Text, MaxValue.Text);
+            var excelPackage = sheet.ImportPackage();
+            sheet.CreateWorksheet(excelPackage);
 
+            if (Choose.SelectedValue == number)
+            {
+                sheet.CellsRandomNumbers(Row.Text, Column.Text, MinValue.Text, MaxValue.Text);
+            }
+
+            if (Choose.SelectedValue == @char)
+            {
+                //Це костыль
+                string Random = "Test";
+                sheet.CellRandomString(Random, Row.Text, Column.Text, CharLength.Text);
+            }
+
+            if (Choose.SelectedValue == user)
+            {
+                sheet.CellUserValue(Row.Text, Column.Text, UserValue.Text);
+            }
         }
 
         private void Choose_SelectionChanged(object sender, SelectionChangedEventArgs e)
