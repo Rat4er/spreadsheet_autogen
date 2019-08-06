@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace spreadsheet_autogen
 {
@@ -60,24 +61,58 @@ namespace spreadsheet_autogen
         private void onClick(object sender, RoutedEventArgs e)
         {
             GenerateSheet sheet = new GenerateSheet();
-            var excelPackage = sheet.ImportPackage();
-            sheet.CreateWorksheet(excelPackage);
-
-            if (Choose.SelectedValue == number)
+            
+            if (GetLibrary.SelectedValue == actual)
             {
-                sheet.CellsRandomNumbers(Row.Text, Column.Text, MinValue.Text, MaxValue.Text);
+
+                var excelPackage = sheet.ImportPackage();
+                sheet.CreateWorksheet(excelPackage);
+
+                if (Choose.SelectedValue == number)
+                {
+                    sheet.CellsRandomNumbers(Row.Text, Column.Text, MinValue.Text, MaxValue.Text);
+
+                }
+
+                if (Choose.SelectedValue == @char)
+                {
+                    //Це костыль
+                    string Random = "Test";
+                    sheet.CellRandomString(Random, Row.Text, Column.Text, CharLength.Text);
+                }
+
+                if (Choose.SelectedValue == user)
+                {
+                    sheet.CellUserValue(Row.Text, Column.Text, UserValue.Text);
+                }
             }
-
-            if (Choose.SelectedValue == @char)
+            if (GetLibrary.SelectedValue == legacy)
             {
-                //Це костыль
-                string Random = "Test";
-                sheet.CellRandomString(Random, Row.Text, Column.Text, CharLength.Text);
-            }
+                Directory.CreateDirectory("C:\\TestFile");
+                Excel.Workbook workBook = sheet.CreateWorkbookLegacy();
+                Excel.Worksheet workSheet = sheet.CreateWorksheetUseLegacy(workBook);
+                if (Choose.SelectedValue == number)
+                {
+                    sheet.CellRandomNumbersUseLegacy(workBook, workSheet, Row.Text, Column.Text, MinValue.Text, MaxValue.Text);
+                    sheet.excelApp.Quit();
+                    MessageBox.Show("Успешно!", "Success!");
+                }
 
-            if (Choose.SelectedValue == user)
-            {
-                sheet.CellUserValue(Row.Text, Column.Text, UserValue.Text);
+                if (Choose.SelectedValue == @char)
+                {
+                    //Це костыль
+                    string Random = "Test";
+                    sheet.CellRandomStringUseLegacy(workBook, workSheet, Random, Row.Text, Column.Text, CharLength.Text);
+                    sheet.excelApp.Quit();
+                    MessageBox.Show("Успешно!", "Success!");
+                }
+
+                if (Choose.SelectedValue == user)
+                {
+                    sheet.CellUserValueUseLegacy(workBook, workSheet, Row.Text, Column.Text, UserValue.Text);
+                    sheet.excelApp.Quit();
+                    MessageBox.Show("Успешно!", "Success!");
+                }
             }
         }
 
@@ -125,6 +160,9 @@ namespace spreadsheet_autogen
 
         }
 
-        
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -6,11 +6,117 @@ using System.Threading.Tasks;
 using OfficeOpenXml;
 using System.Windows.Forms;
 using System.IO;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Reflection;
 
 namespace spreadsheet_autogen
 {
-   public class GenerateSheet
+    public class GenerateSheet
     {
+        public Excel.Application excelApp = new Excel.Application();
+        public Excel.Workbook CreateWorkbookLegacy()
+        {
+            
+            Excel.Workbook workBook;
+            workBook = excelApp.Workbooks.Add();
+            return workBook;
+        }
+        /// <summary>
+        /// Создает книгу и лист Excel используя Legacy библиотеку
+        /// </summary>
+        /// <returns>workSheet</returns>
+        public Excel.Worksheet CreateWorksheetUseLegacy(Excel.Workbook workBook)
+        {
+            Excel.Worksheet workSheet;
+            workSheet = (Excel.Worksheet)workBook.Sheets.Add(Type.Missing, workBook.Sheets[1], Type.Missing, Type.Missing);
+            workSheet.Name = "Test";
+            return workSheet;
+        }
+        /// <summary>
+        /// Заполняет таблицу случайными числами используя Legacy библиотеку
+        /// </summary>
+        /// <param name="RBeforeParse"></param>
+        /// <param name="CBeforeParse"></param>
+        /// <param name="MinValue"></param>
+        /// <param name="MaxValue"></param>
+        public void CellRandomNumbersUseLegacy(Excel.Workbook workBook, Excel.Worksheet workSheet, string RBeforeParse, string CBeforeParse, string MinValue, string MaxValue)
+        {
+            Random random = new Random();
+            var GetValue = new MainWindow();
+                        
+            
+            long Rows = long.Parse(RBeforeParse);
+            long Columns = long.Parse(CBeforeParse);
+
+            for (int i = 1; i <= Rows; i++)
+            {
+                for (int ii = 1; ii <= Columns; ii++)
+                {
+                    long randomValue = random.NextLong(long.Parse(MinValue), long.Parse(MaxValue));
+                    workSheet.Cells[i, ii] = randomValue;
+                }
+            }
+
+            workBook.SaveAs("C:\\TestFile\\Test.xls", Excel.XlFileFormat.xlWorkbookNormal,
+            Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange,
+            Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            workBook.Close(Missing.Value, Missing.Value, Missing.Value);
+        }
+
+        /// <summary>
+        /// Заполняет таблицу случайными строками используя Legacy библиотеку
+        /// </summary>
+        /// <param name="RandomString"></param>
+        /// <param name="RBeforeParse"></param>
+        /// <param name="CBeforeParse"></param>
+        /// <param name="CharLength"></param>
+        public void CellRandomStringUseLegacy(Excel.Workbook workBook, Excel.Worksheet workSheet, string RandomString, string RBeforeParse, string CBeforeParse, string CharLength)
+        {
+            long Rows = long.Parse(RBeforeParse);
+            long Columns = long.Parse(CBeforeParse);
+            Random random = new Random();
+
+            for (int i = 1; i <= Rows; i++)
+            {
+                for (int ii = 1; ii <= Columns; ii++)
+                {
+                    string randomValue = random.RandomString(int.Parse(CharLength));
+                    workSheet.Cells[i, ii] = randomValue;
+                }
+            }
+            workBook.SaveAs("C:\\TestFile\\Test.xls", Excel.XlFileFormat.xlWorkbookNormal,
+            Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange,
+            Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            workBook.Close(Missing.Value, Missing.Value, Missing.Value);
+        }
+
+        /// <summary>
+        /// Заполняет таблицу пользовательскими данными используя Legacy библиотеку
+        /// </summary>
+        /// <param name="workBook"></param>
+        /// <param name="workSheet"></param>>
+        /// <param name="RBeforeParse"></param>
+        /// <param name="CBeforeParse"></param>
+        /// <param name="value"></param>
+        public void CellUserValueUseLegacy(Excel.Workbook workBook, Excel.Worksheet workSheet, string RBeforeParse, string CBeforeParse, string value)
+        {
+            long Rows = long.Parse(RBeforeParse);
+            long Columns = long.Parse(CBeforeParse);
+
+
+            for (int i = 1; i <= Rows; i++)
+            {
+                for (int ii = 1; ii <= Columns; ii++)
+                {
+                    workSheet.Cells[i, ii].Value = value;
+                }
+            }
+            workBook.SaveAs("C:\\TestFile\\Test.xls", Excel.XlFileFormat.xlWorkbookNormal,
+            Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange,
+            Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            workBook.Close(Missing.Value, Missing.Value, Missing.Value);
+        }
+
         /// <summary>
         /// Импортирует пакет для работы с Excel
         /// </summary>
