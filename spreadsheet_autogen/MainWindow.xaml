@@ -10,8 +10,8 @@
     <Grid>
         <TextBox x:Name="Row" HorizontalAlignment="Left" Height="23" Margin="59,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"  MaxLines="1"/>
         <TextBox x:Name="Column" HorizontalAlignment="Left" Height="23" Margin="59,208,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"  IsEnabled="True" MaxLines="1" IsUndoEnabled="False"/>
-        <Label Content="Количество строк" HorizontalAlignment="Left" Height="28" Margin="59,95,0,0" VerticalAlignment="Top" Width="140"/>
-        <Label Content="Количество столбцов" HorizontalAlignment="Left" Height="28" Margin="59,175,0,0" VerticalAlignment="Top" Width="140"/>
+        <Label Content="Количество строк" HorizontalAlignment="Left" Height="28" Margin="49,95,0,0" VerticalAlignment="Top" Width="140"/>
+        <Label Content="Количество столбцов" HorizontalAlignment="Left" Height="28" Margin="49,175,0,0" VerticalAlignment="Top" Width="140"/>
         <ComboBox x:Name="Choose" Text="Выберете тип данных:" HorizontalAlignment="Left" Margin="298,128,0,0" VerticalAlignment="Top" Width="336" Height="23" IsReadOnly="True" AutomationProperties.HelpText="Тип данных" SelectionChanged="Choose_SelectionChanged" IsEditable="True">
             <ComboBoxItem Content="Случайные числовые значения" Name="number"></ComboBoxItem>
             <ComboBoxItem Content="Случайные буквенные значения" Name="char"></ComboBoxItem>
