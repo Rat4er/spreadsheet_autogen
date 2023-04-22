@@ -8,15 +8,32 @@ using System.Windows.Forms;
 using System.IO;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Reflection;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace spreadsheet_autogen
 {
-    public class GenerateSheet
+    public class GenerateSheet : IGenerateSheet
     {
-        public Excel.Application excelApp = new Excel.Application();
-        public Excel.Workbook CreateWorkbookLegacy()
+        public Excel.Application excelApp => getExcelApp();
+        internal Excel.Application getExcelApp()
         {
-            
+            try
+            {
+                Excel.Application excelApp = new Excel.Application();
+            }
+            catch(System.Runtime.InteropServices.COMException exc)
+            {
+                MessageBox.Show($"Some error has been occured {exc.InnerException} ");
+                return null;
+            }
+            return excelApp;
+        }
+        public Excel.Workbook CreateWorkbookLegacy()
+        {  
             Excel.Workbook workBook;
             workBook = excelApp.Workbooks.Add();
             return workBook;
@@ -235,8 +252,7 @@ namespace spreadsheet_autogen
                 MessageBox.Show("Сохранено", "Success");
             }
         }
+}
 
-
-    }
     }
 

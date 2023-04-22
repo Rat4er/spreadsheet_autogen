@@ -60,7 +60,7 @@ namespace spreadsheet_autogen
         /// <param name="e"></param>
         private void onClick(object sender, RoutedEventArgs e)
         {
-            GenerateSheet sheet = new GenerateSheet();
+            IGenerateSheet sheet = new GenerateSheet();
             
             if (GetLibrary.SelectedValue == actual)
             {
